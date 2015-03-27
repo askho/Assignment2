@@ -4,6 +4,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -35,5 +40,13 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void onGetData(View view) {
+        TextView textView = (TextView)this.findViewById(R.id.textView);
+        EditText apiKey = (EditText)this.findViewById(R.id.apiKey);
+        EditText dbName = (EditText)this.findViewById(R.id.dbName);
+        EditText collection = (EditText)this.findViewById(R.id.collection);
+        Http http = new Http(textView);
+        http.execute(apiKey.getText().toString(), dbName.getText().toString(), collection.getText().toString());
     }
 }

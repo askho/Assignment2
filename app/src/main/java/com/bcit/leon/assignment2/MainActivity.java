@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 
@@ -42,11 +44,15 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     public void onGetData(View view) {
-        TextView textView = (TextView)this.findViewById(R.id.textView);
         EditText apiKey = (EditText)this.findViewById(R.id.apiKey);
         EditText dbName = (EditText)this.findViewById(R.id.dbName);
         EditText collection = (EditText)this.findViewById(R.id.collection);
-        Http http = new Http(textView);
+        Http http = new Http(this);
         http.execute(apiKey.getText().toString(), dbName.getText().toString(), collection.getText().toString());
+    }
+    public void updateSql(JSONObject jsonObject) throws JSONException {
+        TextView textView = (TextView)this.findViewById(R.id.textView);
+        MyDBHandler db = new MyDBHandler(this, null, null, 1);
+        db.addStudent(jsonObject);
     }
 }

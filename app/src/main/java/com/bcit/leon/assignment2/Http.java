@@ -21,9 +21,9 @@ import java.io.IOException;
  * Created by Leon on 2015-03-27.
  */
 public class Http extends AsyncTask<String, String, String> {
-    private TextView textView;
-    public Http(TextView textView) {
-        this.textView = textView;
+    MainActivity activity;
+    public Http(MainActivity activity){
+        this.activity = activity;
     }
     protected String doInBackground(String... input) {
         String apiKey = input[0];
@@ -52,10 +52,7 @@ public class Http extends AsyncTask<String, String, String> {
             JSONArray jsArray = new JSONArray(s);
             for(int i = 0; i < jsArray.length(); i++) {
                 JSONObject temp = jsArray.getJSONObject(i);
-                textView.append("\nFirstName: " + temp.getString("first_name"));
-                textView.append("\nLastName: " + temp.getString("last_name"));
-                textView.append("\nEmail: " + temp.getString("email_address"));
-                textView.append("\nStudent Num: " + temp.getString("student_number"));
+                activity.updateSql(temp);
             }
         }catch (JSONException e) {
             e.printStackTrace();

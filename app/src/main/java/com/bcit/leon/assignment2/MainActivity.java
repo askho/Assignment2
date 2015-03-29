@@ -1,7 +1,8 @@
 package com.bcit.leon.assignment2;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +11,8 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -54,5 +56,17 @@ public class MainActivity extends ActionBarActivity {
         TextView textView = (TextView)this.findViewById(R.id.textView);
         MyDBHandler db = new MyDBHandler(this, null, null, 1);
         db.addStudent(jsonObject);
+    }
+
+
+    public void getDB(View view) {
+        TextView list = (TextView)findViewById(R.id.sqliteList);
+        MyDBHandler db = new MyDBHandler(this, null, null, 1);
+        Log.w("getDB", "starting db.getAll()");
+        ArrayList<Student> students = db.getAll();
+        Log.w("getDB", "finished db.getAll()");
+        for (Student s : students) {
+            list.append(s + "\n");
+        }
     }
 }

@@ -63,5 +63,28 @@ public class MyDBHandler extends SQLiteOpenHelper {
             db.close();
         }
     }
+
+    public ArrayList<Student> getAll() {
+        String query = "Select * FROM " + TABLE;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        ArrayList<Student> students = new ArrayList<Student>();
+        //Student(String fname, String lname, String email, int sno)
+
+        while (cursor.moveToNext()) {
+            String fname = cursor.getString(cursor.getColumnIndex(FIRST_NAME));
+            String lname = cursor.getString(cursor.getColumnIndex(LAST_NAME));
+            String email = cursor.getString(cursor.getColumnIndex(EMAIL));
+            int studNo = cursor.getInt(cursor.getColumnIndex(STUDENT_NUM));
+            Log.w("Cursor", cursor.getString(cursor.getColumnIndex(FIRST_NAME)));
+            students.add(new Student(fname, lname, email, studNo));
+        }
+        db.close();
+        Log.w("cursor", "added all entries");
+        return students;
+    }
 }
 

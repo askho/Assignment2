@@ -32,6 +32,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.w("MyDBHelper", "onCreate");
         String CREATE_PRODUCTS_TABLE = "CREATE TABLE " +
                 TABLE + "("
                 + "_id" + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -40,7 +41,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 + EMAIL + " TEXT,"
                 + STUDENT_NUM + " INTEGER);";
         Log.w("MyDBHandler", CREATE_PRODUCTS_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE);
         db.execSQL(CREATE_PRODUCTS_TABLE);
+    }
+
+    public void reset() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        onCreate(db);
     }
 
     @Override
@@ -62,6 +69,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }finally {
             db.close();
         }
+
     }
 
     public ArrayList<Student> getAll() {
@@ -71,8 +79,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(query, null);
 
-        ArrayList<Student> students = new ArrayList<Student>();
-        //Student(String fname, String lname, String email, int sno)
+        ArrayList<Student> students = new ArrayList<>();
 
         while (cursor.moveToNext()) {
             String fname = cursor.getString(cursor.getColumnIndex(FIRST_NAME));

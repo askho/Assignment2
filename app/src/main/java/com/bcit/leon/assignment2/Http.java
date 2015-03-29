@@ -2,12 +2,10 @@ package com.bcit.leon.assignment2;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.TextView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -22,9 +20,11 @@ import java.io.IOException;
  */
 public class Http extends AsyncTask<String, String, String> {
     MainActivity activity;
+
     public Http(MainActivity activity){
         this.activity = activity;
     }
+
     protected String doInBackground(String... input) {
         String apiKey = input[0];
         String dbName = input[1];
@@ -50,6 +50,7 @@ public class Http extends AsyncTask<String, String, String> {
     protected void onPostExecute(String s) {
         try {
             JSONArray jsArray = new JSONArray(s);
+
             for(int i = 0; i < jsArray.length(); i++) {
                 JSONObject temp = jsArray.getJSONObject(i);
                 activity.updateSql(temp);
@@ -57,7 +58,7 @@ public class Http extends AsyncTask<String, String, String> {
         }catch (JSONException e) {
             e.printStackTrace();
         }
-
+        activity.getDB(null);
         /*try {
             //JSONObject result = new JSONObject(s);
 

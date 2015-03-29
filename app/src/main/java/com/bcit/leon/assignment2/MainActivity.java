@@ -17,10 +17,13 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
 
+    private MyDBHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = new MyDBHandler(this, null, null, 1);
     }
 
 
@@ -50,11 +53,11 @@ public class MainActivity extends ActionBarActivity {
         EditText dbName = (EditText)this.findViewById(R.id.dbName);
         EditText collection = (EditText)this.findViewById(R.id.collection);
         Http http = new Http(this);
+        db.reset();
         http.execute(apiKey.getText().toString(), dbName.getText().toString(), collection.getText().toString());
     }
     public void updateSql(JSONObject jsonObject) throws JSONException {
-        TextView textView = (TextView)this.findViewById(R.id.textView);
-        MyDBHandler db = new MyDBHandler(this, null, null, 1);
+        //TextView textView = (TextView)this.findViewById(R.id.textView);
         db.addStudent(jsonObject);
     }
 
@@ -65,6 +68,7 @@ public class MainActivity extends ActionBarActivity {
         Log.w("getDB", "starting db.getAll()");
         ArrayList<Student> students = db.getAll();
         Log.w("getDB", "finished db.getAll()");
+        list.setText("");
         for (Student s : students) {
             list.append(s + "\n");
         }
